@@ -1,8 +1,12 @@
 #!/bin/bash -x
 
+run() {
+   command "$@" || exit 1
+}
+
 # create local storage
-kubectl apply -f https://raw.githubusercontent.com/jseparovic/kubesetup/master/specs/local-storage-class.yaml
-kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+run kubectl apply -f https://raw.githubusercontent.com/jseparovic/kubesetup/master/specs/local-storage-class.yaml
+run kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # https://akomljen.com/get-kubernetes-logs-with-efk-stack-in-5-minutes/
 
@@ -10,17 +14,17 @@ kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"stora
 kubectl delete namespace logging
 
 # create logging namespace
-kubectl create namespace logging
+run kubectl create namespace logging
 
 # Create persistent volume
-kubectl apply -f https://raw.githubusercontent.com/jseparovic/kubesetup/master/specs/es-persistent-volumes.yaml
+run kubectl apply -f https://raw.githubusercontent.com/jseparovic/kubesetup/master/specs/es-persistent-volumes.yaml
 
 # Add helm repo
-helm repo add akomljen-charts https://raw.githubusercontent.com/komljen/helm-charts/master/charts/
+run helm repo add akomljen-charts https://raw.githubusercontent.com/komljen/helm-charts/master/charts/
 
 # Add es pods
 helm del --purge es-operator
-helm install --name es-operator --set rbac.create=true --namespace logging akomljen-charts/elasticsearch-operator
+run helm install --name es-operator --set rbac.create=true --namespace logging akomljen-charts/elasticsearch-operator
 helm del --purge efk
-helm install --name efk --namespace logging akomljen-charts/efk
+run helm install --name efk --namespace logging akomljen-charts/efk
 
