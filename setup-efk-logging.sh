@@ -13,7 +13,7 @@ kubectl delete namespace logging
 kubectl create namespace logging
 
 # Create persistent volume
-kubectl apply -f https://raw.githubusercontent.com/jseparovic/kubesetup/master/specs/es-persistent-volume.yaml
+kubectl apply -f https://raw.githubusercontent.com/jseparovic/kubesetup/master/specs/es-persistent-volumes.yaml
 
 # Add helm repo
 helm repo add akomljen-charts https://raw.githubusercontent.com/komljen/helm-charts/master/charts/
