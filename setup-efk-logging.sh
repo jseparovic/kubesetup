@@ -10,8 +10,10 @@ run kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"s
 
 # https://akomljen.com/get-kubernetes-logs-with-efk-stack-in-5-minutes/
 
-# clean up existing logging namespace
+# clean up existing logging namespace and persistent volumes
 kubectl delete namespace logging
+kubectl delete pv es-data-es-data-efk-cluster-default-0
+kubectl delete pv es-data-es-master-efk-cluster-default-0
 
 # create logging namespace
 run kubectl create namespace logging

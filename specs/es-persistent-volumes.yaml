@@ -11,7 +11,7 @@ spec:
     storage: 10Gi
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /data
+    path: /data/es-data-volume
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -26,4 +26,4 @@ spec:
     storage: 10Gi
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /data
+    path: /data/es-master-volume
